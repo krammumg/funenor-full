@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:root {
+  --primary: #004aad;
+  --accent: #ffcc00;
+  --bg: #ffffff;
+  --text: #222;
+  --muted: #f9f9f9;
+  --max-w: 1100px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html,body { font-family: 'Montserrat', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
+
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 28px; background: rgba(255,255,255,0.96);
+  border-bottom: 1px solid rgba(0,0,0,0.06); z-index: 1200; backdrop-filter: blur(6px);
+}
+.navbar .logo { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--primary); text-decoration: none; }
+.navbar .logo img { height: 44px; }
+.nav-links { display: flex; gap: 20px; list-style: none; align-items: center; }
+.nav-links a { text-decoration: none; color: var(--text); font-weight: 600; padding: 8px 10px; border-radius: 8px; transition: background .18s, color .18s; }
+.nav-links a:hover { background: rgba(0,74,173,0.08); color: var(--primary); }
+
+/* HERO */
+.hero-donaciones {
+  width: 100%; height: 50vh; min-height: 360px; max-height: 560px;
+  background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center;
+  position: relative; padding: 24px;
+}
+.hero-donaciones::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+.hero-donaciones .hero-content { position: relative; z-index: 1; text-align: center; color: #fff; }
+.hero-donaciones h1 { font-size: 2.5rem; margin-bottom: 15px; }
+.hero-donaciones p { font-size: 1.2rem; }
+
+/* SECCION DONACIONES */
+.section { padding: 50px 20px; max-width: var(--max-w); margin: 0 auto; }
+.section h2 { text-align: center; color: var(--primary); font-size: 1.8rem; margin-bottom: 30px; }
+
+.donaciones-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;
+}
+
+.donacion-card {
+  background: var(--muted); border-radius: 12px; padding: 25px; text-align: center; transition: transform 0.3s, background 0.3s; cursor: pointer;
+}
+.donacion-card:hover { transform: translateY(-5px); background: var(--primary); color: #fff; }
+.donacion-card img { width: 60px; margin-bottom: 12px; }
+.donacion-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+.donacion-card p { font-size: 1rem; margin-bottom: 15px; }
+
+.btn-donar {
+  display: inline-block; padding: 12px 25px; border-radius: 8px;
+  font-weight: 700; text-decoration: none; background: var(--accent); color: #000; transition: 0.3s;
+}
+.btn-donar:hover { background: #e6b800; }
+
+/* DONACIÓN POR CAUSA */
+.causa-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 25px;
+}
+.causa-card {
+  background: #e6f0ff; padding: 18px; border-radius: 10px; text-align: center; transition: transform 0.3s, background 0.3s; cursor: pointer;
+}
+.causa-card:hover { transform: translateY(-5px); background: var(--primary); color: #fff; }
+.causa-card img { width: 50px; margin-bottom: 10px; }
+.causa-card h4 { font-size: 1rem; font-weight: 600; }
+
+/* =================== FOOTER =================== */
+footer { background: #004aad; color: #fff; text-align: center; padding: 20px; margin-top: 40px; }
+footer {
+  background: #004aad;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-left,
+.footer-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-center {
+  flex: 2;
+  text-align: center;
+}
+
+.footer-logo {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer-dev {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+/* Ajuste para móviles */
+@media (max-width: 700px) {
+  .footer-container {
+    flex-direction: column;
+  }
+  .footer-left,
+  .footer-right {
+    order: 1;
+  }
+  .footer-center {
+    order: 2;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px){
+  .donaciones-grid, .causa-grid { grid-template-columns: 1fr; }
+  .hero-donaciones h1 { font-size: 1.8rem; }
+}
+
+/* MODAL */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 2000; 
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.6); 
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto; 
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  color: var(--primary);
+  text-align: center;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.1);
+  font-size: 1rem;
+}
+
+.modal-content button.btn-donar {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* CERRAR MODAL */
+.close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* ==== PAYPAL BUTTONS ==== */
+.paypal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Limita el tamaño del iframe de PayPal */
+.paypal-container iframe {
+  transform: scale(0.85); /* Ajusta el tamaño general */
+  transform-origin: center;
+}
+
+/* Si se ve muy pequeño o muy grande, ajusta el scale: */
+@media (max-width: 600px) {
+  .paypal-container iframe {
+    transform: scale(0.75);
+  }
+}
+
+/* --- Estilo del input de donación (monto) --- */
+.donacion-card .donation-amount,
+.causa-card .donation-amount {
+  width: 100%;
+  max-width: 120px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* --- Botón de Paggo --- */
+.paggo-btn {
+  display: inline-block;
+  background-color: #ff6600; /* naranja Paggo */
+  color: #fff;
+  font-weight: bold;
+  padding: 10px 20px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-size: 14px;
+}
+
+.paggo-btn:hover {
+  background-color: #e65c00; /* un tono más oscuro al pasar el mouse */
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.paggo-btn:disabled {
+  background-color: #ffa366;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* =================== NAVBAR =================== */
+.navbar {
+  position: fixed; top: 0; left: 0; width: 100%;
+  display: flex; justify-content: space-between; align-items: center;
+  background: #004aad; padding: 15px 30px; z-index: 1000;
+}
+.navbar .logo { display: flex; align-items: center; color: #fff; font-weight: bold; }
+.navbar .logo img { height: 40px; margin-right: 10px; }
+.nav-links { list-style: none; display: flex; }
+.nav-links li { margin-left: 20px; position: relative; }
+.nav-links a { text-decoration: none; color: #fff; font-weight: 500; transition: 0.3s; }
+.nav-links a:hover { color: #ffcc00; }
+.dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: #fff; border-radius: 8px; padding: 0.5rem 0; min-width: 200px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+.dropdown:hover .dropdown-menu { display: block; }
+.dropdown-menu a { display: block; padding: 0.5rem 1rem; color: #333; }
+.dropdown-menu a:hover { background: #f0f0f0; }
+.btn-donar { background-color: #ff9800; color: white; padding: 10px 20px; border-radius: 25px; font-weight: 600; text-transform: uppercase; transition: background 0.3s; }
+.btn-donar:hover { background-color: #e68900; }
+
+/* Dropdown */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  min-width: 220px;
+  z-index: 1000;
+}
+
+.dropdown-menu li {
+  display: block;
+}
+
+.dropdown-menu a {
+  padding: 0.5rem 1rem;
+  display: block;
+  color: #333;
+}
+
+.dropdown-menu a:hover {
+  background: #f0f0f0;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Botón donar */
+.btn-donar {
+  background-color: #ff9800;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
+
+.btn-donar:hover {
+  background-color: #e68900;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+}

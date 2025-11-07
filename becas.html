@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Becas — FUNDENOR AQ'AB'AL</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script src="js/exportar.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const role = localStorage.getItem("role");
+
+    // Permitir acceso a admin y becasManager
+    if (role !== "admin" && role !== "becasManager") {
+      alert("No tienes permiso para acceder a esta página");
+      window.location.href = "index.html";
+    }
+  });
+</script>
+
+<body class="with-sidebar">
+  <div class="app">
+    <aside class="sidebar"></aside>
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="img/logo.png" alt="Logo FUNDENOR AQAB'AL'">
+        <span>FUNDENOR AQ'AB'AL</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li class="dropdown">
+          <a href="#programas">Programas ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="programas/programa1.html">Alimentación y Nutrición</a></li>
+            <li><a href="programas/programa2.html">Salud</a></li>
+            <li><a href="programas/programa3.html">Higiene y Hogar</a></li>
+            <li><a href="programas/programa4.html">Educación</a></li>
+            <li><a href="programas/programa5.html">Ayuda Humanitaria</a></li>
+          </ul>
+        </li>
+        <li><a href="donaciones/donaciones.html" class="btn-donar">Donar</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<div class="app">
+  
+  
+    <!-- CONTENT -->
+    <div class="content">
+      <!-- CARDS RESUMEN -->
+      <div class="cards">
+        <div class="card">
+          <h3>Total Becadas</h3>
+          <div class="big" id="totalBecadas">0</div>
+        </div>
+        <div class="card">
+          <h3>Becadas Comunitaria</h3>
+          <div class="big" id="becadasComunitaria">0</div>
+        </div>
+        <div class="card">
+          <h3>Becadas Residencia</h3>
+          <div class="big" id="becadasResidencia">0</div>
+        </div>
+      </div>
+
+<!-- MAIN -->
+  <main class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar__left">
+        <h1 class="page-title">Becas</h1>
+      </div>
+      <div class="topbar__right">
+        <button class="btn" id="btnNewBecada">Registrar Nueva Becada</button>
+      </div>
+    </div>
+
+      <div class="filters">
+        <select id="filterTipoBeca">
+          <option value="">Tipo de beca</option>
+          <option value="Comunitaria">Comunitaria</option>
+          <option value="Residencia">Residencia</option>
+        </select>
+
+        <select id="filterGrado">
+          <option value="">Grado</option>
+          <option value="Primero Primaria">Primero Primaria</option>
+          <option value="Segundo Primaria">Segundo Primaria</option>
+          <option value="Tercero Primaria">Tercero Primaria</option>
+          <option value="Cuarto Primaria">Cuarto Primaria</option>
+          <option value="Quinto Primaria">Quinto Primaria</option>
+          <option value="Sexto Primaria">Sexto Primaria</option>
+          <option value="Primero Básico">Primero Básico</option>
+          <option value="Segundo Básico">Segundo Básico</option>
+          <option value="Tercero Básico">Tercero Básico</option>
+          <option value="Cuarto Diversificado">Cuarto Diversificado</option>
+          <option value="Quinto Diversificado">Quinto Diversificado</option>
+          <option value="Sexto Diversificado">Sexto Diversificado</option>
+        </select>
+
+        <select id="filterDepartamento">
+          <option value="">Departamento</option>
+          <option value="Alta Verapaz">Alta Verapaz</option>
+          <option value="Baja Verapaz">Baja Verapaz</option>
+        </select>
+
+        <select id="filterMunicipio">
+          <option value="">Municipio</option>
+        </select>
+
+      <div class="dropdown">
+        <button class="btn" id="btnExport">Exportar a:</button>
+        <div class="dropdown-content" id="exportOptions">
+          <a href="#" data-format="csv">CSV</a>
+          <a href="#" data-format="excel">Excel</a>
+          <a href="#" data-format="pdf">PDF</a>
+        </div>
+      </div>
+      </div>
+
+      <!-- TABLA DE BECADAS -->
+      <div class="panel">
+        <div class="panel__head">
+          <h2>Listado de Becadas</h2>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="tableBecadas">
+            <thead>
+              <tr>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Fecha Nac.</th>
+                <th>Edad</th>
+                <th>Grado</th>
+                <th>Tipo de Beca</th>
+                <th>Departamento</th>
+                <th>Municipio</th>
+                <th>Comunidad</th>
+                <th>Talla Playera</th>
+                <th>Talla Zapatos</th>
+                <th>Necesidades Educativas</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filas se agregan dinámicamente desde JS/backend -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<!-- MODAL NUEVA BECADA -->
+<div class="detail-panel" id="modalBecada">
+  <button class="detail-panel__close" id="closeModal">&times;</button>
+  <div class="detail-panel__body">
+    <h2>Registrar Nueva Becada</h2>
+    <form id="formBecada">
+      <label for="nombres">Nombres:</label>
+      <input type="text" id="nombres" name="nombres" required>
+
+      <label for="apellidos">Apellidos:</label>
+      <input type="text" id="apellidos" name="apellidos">
+
+      <label for="fechaNacimiento">Fecha de nacimiento</label>
+      <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+
+      <label for="grado">Grado escolar</label>
+      <select id="grado" name="grado" required>
+        <option value="">Grado</option>
+          <option value="Primero Primaria">Primero Primaria</option>
+          <option value="Segundo Primaria">Segundo Primaria</option>
+          <option value="Tercero Primaria">Tercero Primaria</option>
+          <option value="Cuarto Primaria">Cuarto Primaria</option>
+          <option value="Quinto Primaria">Quinto Primaria</option>
+          <option value="Sexto Primaria">Sexto Primaria</option>
+          <option value="Primero Básico">Primero Básico</option>
+          <option value="Segundo Básico">Segundo Básico</option>
+          <option value="Tercero Básico">Tercero Básico</option>
+          <option value="Cuarto Diversificado">Cuarto Diversificado</option>
+          <option value="Quinto Diversificado">Quinto Diversificado</option>
+          <option value="Sexto Diversificado">Sexto Diversificado</option>
+      </select>
+
+      <label for="tipoBeca">Tipo de beca</label>
+      <select id="tipoBeca" name="tipoBeca" required>
+        <option value="">Selecciona</option>
+        <option value="Comunitaria">Comunitaria</option>
+        <option value="Residencia">Residencia</option>
+      </select>
+
+      <label for="departamento">Departamento</label>
+      <select id="departamento" name="departamento" required>
+        <option value="">Selecciona</option>
+        <option value="Alta Verapaz">Alta Verapaz</option>
+        <option value="Baja Verapaz">Baja Verapaz</option>
+      </select>
+
+      <label for="municipio">Municipio</label>
+      <select id="municipio" name="municipio" required>
+        <option value="">Selecciona un departamento primero</option>
+      </select>
+
+      <label for="comunidad">Comunidad</label>
+      <input type="text" id="comunidad" name="comunidad" required>
+
+      <label for="tallaPlayera">Talla de Playera</label>
+      <select id="tallaPlayera" name="tallaPlayera" required>
+        <option value="">Selecciona</option>
+        <option value="12">12</option>
+        <option value="14">14</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+      </select>
+
+      <label for="tallaZapatos">Talla Zapatos</label>
+      <input type="number" id="tallaZapatos" name="tallaZapatos" min="15" max="50" step="1">
+
+      <label>Principales necesidades educativas</label>
+<div>
+  <input type="text" id="nuevaNecesidad" placeholder="Escribe una necesidad">
+  <button type="button" id="btnAgregarNecesidad">Agregar</button>
+</div>
+<ul id="listaNecesidades"></ul>
+<input type="hidden" id="necesidades">
+
+        </div>
+
+      <div class="detail-actions">
+        <button type="submit" class="btn">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/sidebar.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/becas.js"></script>
+
+<!-- FOOTER -->
+  <footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <img src="../img/logo.png" alt="Logo FUNDENOR AQ'AB'AL" class="footer-logo">
+    </div>
+
+    <div class="footer-center">
+      <p>&copy; 2025 FUNDENOR AQ'AB'AL — Todos los derechos reservados</p>
+      <p class="footer-dev">
+        Universidad Mariano Gálvez de Guatemala, Sede Cobán A.V.<br>
+        Ingeniería en Sistemas de Información y Ciencias de la Computación — Décimo Ciclo
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <img src="../img/logo_umg.png" alt="Logo UMG" class="footer-logo">
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

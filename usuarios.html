@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Usuarios — FUNDENOR AQ'AB'AL</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const role = localStorage.getItem("role");
+    
+    if (role !== "admin") {
+      alert("No tienes permiso para acceder a esta página");
+      window.location.href = "index.html"; // o donde prefieras
+    }
+  });
+</script>
+<body>
+<!-- SIDEBAR -->
+<header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="img/logo.png" alt="Logo FUNDENOR AQAB'AL'">
+        <span>FUNDENOR AQAB'AL'</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li class="dropdown">
+          <a href="#programas">Programas ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="programas/programa1.html">Alimentación y Nutrición</a></li>
+            <li><a href="programas/programa2.html">Salud</a></li>
+            <li><a href="programas/programa3.html">Higiene y Hogar</a></li>
+            <li><a href="programas/programa4.html">Educación</a></li>
+            <li><a href="programas/programa5.html">Ayuda Humanitaria</a></li>
+          </ul>
+        </li>
+        <li><a href="donaciones/donaciones.html" class="btn-donar">Donar</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<div class="app">
+<!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      
+      <nav class="menu">
+        <a href="admin.html" class="menu__item"><span class="ico">💰</span><span>Donaciones</span></a>
+        <a href="becas.html" class="menu__item"><span class="ico">🎓</span><span>Becas</span></a>
+        <a href="seguimiento.html" class="menu__item"><span class="ico">📊</span><span>Seguimiento</span></a>
+        <a href="usuarios.html" class="menu__item active"><span class="ico">👥</span><span>Usuarios</span></a>
+      </nav>
+    </aside>
+  <!-- MAIN -->
+  <main class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar__left">
+        <h1 class="page-title">Usuarios</h1>
+      </div>
+      <div class="topbar__right">
+        <button class="btn" id="btnNewUser">Registrar Nuevo Usuario</button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- CARDS RESUMEN -->
+      <div class="cards">
+        <div class="card">
+          <h3>Total Usuarios</h3>
+          <div class="big" id="totalUsuarios">0</div>
+        </div>
+        <div class="card">
+          <h3>Administradores</h3>
+          <div class="big" id="totalAdmins">0</div>
+        </div>
+        <div class="card">
+          <h3>Usuarios Normales</h3>
+          <div class="big" id="totalNormales">0</div>
+        </div>
+      </div>
+
+      <!-- TABLA DE USUARIOS -->
+      <div class="panel">
+        <div class="panel__head">
+          <h2>Listado de Usuarios</h2>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="tableUsuarios">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Fecha de Registro</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filas se agregan dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<!-- MODAL NUEVO USUARIO -->
+<div class="detail-panel" id="modalUser">
+  <button class="detail-panel__close" id="closeModalUser">&times;</button>
+  <div class="detail-panel__body">
+    <h2>Registrar / Editar Usuario</h2>
+    <form id="formUser">
+      <label for="name">Nombre completo</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" name="password" placeholder="Dejar vacío si no cambia">
+
+      <label for="role">Rol</label>
+      <select id="role" name="role" required>
+        <option value="">Selecciona</option>
+        <option value="user">Usuario Normal</option>
+        <option value="becasManager">Encargado de Becas</option>
+        <option value="admin">Administrador</option>
+      </select>
+
+      <div class="detail-actions">
+        <button type="submit" class="btn">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="/js/auth.js"></script>
+<script src="/js/usuarios.js"></script>
+
+<!-- FOOTER -->
+  <footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <img src="../img/logo.png" alt="Logo FUNDENOR AQ'AB'AL" class="footer-logo">
+    </div>
+
+    <div class="footer-center">
+      <p>&copy; 2025 FUNDENOR AQ'AB'AL — Todos los derechos reservados</p>
+      <p class="footer-dev">
+        Universidad Mariano Gálvez de Guatemala, Sede Cobán A.V.<br>
+        Ingeniería en Sistemas de Información y Ciencias de la Computación — Décimo Ciclo
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <img src="../img/logo_umg.png" alt="Logo UMG" class="footer-logo">
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

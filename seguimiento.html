@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seguimiento Becadas — FUNDENOR AQ'AB'AL</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const role = localStorage.getItem("role");
+
+    // Permitir acceso a admin y becasManager
+    if (role !== "admin" && role !== "becasManager") {
+      alert("No tienes permiso para acceder a esta página");
+      window.location.href = "index.html";
+    }
+  });
+</script>
+
+<body class="with-sidebar">
+  <div class="app">
+    <aside class="sidebar"></aside>
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="img/logo.png" alt="Logo FUNDENOR AQAB'AL'">
+        <span>FUNDENOR AQ'AB'AL</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li class="dropdown">
+          <a href="#programas">Programas ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="programas/programa1.html">Alimentación y Nutrición</a></li>
+            <li><a href="programas/programa2.html">Salud</a></li>
+            <li><a href="programas/programa3.html">Higiene y Hogar</a></li>
+            <li><a href="programas/programa4.html">Educación</a></li>
+            <li><a href="programas/programa5.html">Ayuda Humanitaria</a></li>
+          </ul>
+        </li>
+        <li><a href="donaciones/donaciones.html" class="btn-donar">Donar</a></li>
+      </ul>
+    </nav>
+  </header>
+<div class="app">
+
+  
+
+  <!-- MAIN -->
+  <main class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar__left">
+        <h1 class="page-title">Seguimiento Becadas</h1>
+      </div>
+      <div class="topbar__right">
+        <button class="btn" id="btnNewSeguimiento">Agregar Seguimiento</button>
+        <button class="btn" id="btnNewDatosFinales">Llenar Datos Finales</button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- CARDS RESUMEN -->
+      <div class="cards">
+        <div class="card">
+          <h3>Total Seguimientos</h3>
+          <div class="big" id="totalSeguimientos">0</div>
+        </div>
+        <div class="card">
+          <h3>Meses Registrados</h3>
+          <div class="big" id="mesesRegistrados">0</div>
+        </div>
+        <div class="card">
+          <h3>Datos Finales</h3>
+          <div class="big" id="datosFinalesRegistrados">0</div>
+        </div>
+      </div>
+
+      <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const selectBecada = document.getElementById("selectBecada");
+
+  const totalSeguimientosEl = document.getElementById("totalSeguimientos");
+  const mesesRegistradosEl = document.getElementById("mesesRegistrados");
+  const datosFinalesEl = document.getElementById("datosFinalesRegistrados");
+
+  const API_URL = "http://localhost:4000/api";
+
+  async function actualizarCards(becadaId) {
+    if (!becadaId) {
+      totalSeguimientosEl.textContent = 0;
+      mesesRegistradosEl.textContent = 0;
+      datosFinalesEl.textContent = 0;
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    try {
+      // --- Seguimiento mensual ---
+      const resMensual = await fetch(`${API_URL}/admin/seguimiento/mensual/${becadaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const mensual = await resMensual.json();
+
+      // Total de registros
+      totalSeguimientosEl.textContent = mensual.length;
+
+      // Meses distintos registrados
+      const mesesUnicos = [...new Set(mensual.map(m => m.mes))];
+      mesesRegistradosEl.textContent = mesesUnicos.length;
+
+      // --- Datos finales ---
+      const resFinales = await fetch(`${API_URL}/admin/seguimiento/finales/${becadaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const finales = await resFinales.json();
+      datosFinalesEl.textContent = finales.length;
+
+    } catch (err) {
+      console.error("Error al actualizar los cards:", err);
+      totalSeguimientosEl.textContent = "-";
+      mesesRegistradosEl.textContent = "-";
+      datosFinalesEl.textContent = "-";
+    }
+  }
+
+  // Actualizar cards al seleccionar una becada
+  selectBecada.addEventListener("change", () => {
+    const becadaId = selectBecada.value;
+    actualizarCards(becadaId);
+  });
+});
+</script>
+
+
+      <!-- SELECCIÓN DE BECADA -->
+      <div class="filters">
+        <label for="selectBecada">Seleccionar Becada:</label>
+        <select id="selectBecada">
+          <option value="">-- Selecciona una becada --</option>
+          <!-- Opciones se llenan desde JS -->
+        </select>
+      </div>
+
+      <!-- TABLA DE SEGUIMIENTO MENSUAL -->
+<div class="panel">
+  <div class="panel__head">
+    <h2>Seguimiento Mensual</h2>
+  </div>
+  <div class="table-wrap">
+    <table class="table" id="tableMensual">
+      <thead>
+        <tr>
+          <th>Mes</th>
+          <th>Sesiones</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filas generadas dinámicamente desde JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <!-- ====================== TABLA DATOS FINALES ====================== -->
+<div class="panel">
+  <div class="panel__head">
+    <h2>Datos Finales</h2>
+  </div>
+  <div class="table-wrap">
+    <table class="table" id="tableFinales">
+      <thead>
+        <tr>
+          <th>Año</th>
+          <th>Insumos Recibidos</th>
+          <th>Estado Ciclo Académico</th>
+          <th>Papelería Completa</th>
+          <th>Solicitud de Continuidad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filas generadas dinámicamente desde JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- MODAL SEGUIMIENTO MENSUAL -->
+<div class="detail-panel" id="modalMensual">
+  <button class="detail-panel__close" id="closeModalMensual">&times;</button>
+  <div class="detail-panel__body">
+    <h2>Agregar Seguimiento Mensual</h2>
+    <form id="formMensual">
+      <label for="mes">Mes:</label>
+      <select id="mes" required>
+        <option value="">-- Selecciona un mes --</option>
+        <option value="Enero">Enero</option>
+        <option value="Febrero">Febrero</option>
+        <option value="Marzo">Marzo</option>
+        <option value="Abril">Abril</option>
+        <option value="Mayo">Mayo</option>
+        <option value="Junio">Junio</option>
+        <option value="Julio">Julio</option>
+        <option value="Agosto">Agosto</option>
+        <option value="Septiembre">Septiembre</option>
+        <option value="Octubre">Octubre</option>
+        <option value="Noviembre">Noviembre</option>
+        <option value="Diciembre">Diciembre</option>
+      </select>
+
+      <fieldset>
+        <legend>Sesiones y Asistencia (1 a 7)</legend>
+        <div class="sesion-block">
+          <input type="text" id="sesion1" placeholder="Sesión 1">
+          <select id="asistencia1" required>
+            <option value="">Asistencia</option>
+            <option value="true">SI</option>
+            <option value="false">NO</option>
+          </select>
+        </div>
+        <div class="sesion-block">
+          <input type="text" id="sesion2" placeholder="Sesión 2">
+          <select id="asistencia2" required>
+            <option value="">Asistencia</option>
+            <option value="true">SI</option>
+            <option value="false">NO</option>
+          </select>
+        </div>
+        <div class="sesion-block">
+          <input type="text" id="sesion3" placeholder="Sesión 3">
+          <select id="asistencia3" required>
+            <option value="">Asistencia</option>
+            <option value="true">SI</option>
+            <option value="false">NO</option>
+          </select>
+        </div>
+        <div class="sesion-block">
+          <input type="text" id="sesion4" placeholder="Sesión 4">
+          <select id="asistencia4" required>
+            <option value="">Asistencia</option>
+            <option value="true">SI</option>
+            <option value="false">NO</option>
+          </select>
+        </div>
+        <div class="sesion-block">
+          <input type="text" id="sesion5" placeholder="Sesión 5">
+          <select id="asistencia5" required>
+            <option value="">Asistencia</option>
+            <option value="true">SI</option>
+            <option value="false">NO</option>
+          </select>
+        </div>
+        <div class="sesion-block">
+          <input type="text" id="sesion6" placeholder="Sesión 6">
+          <select id="asistencia6" required>
+            <option value="">Asistencia</option>
+            <option value="true">SI</option>
+            <option value="false">NO</option>
+          </select>
+        </div>
+        <div class="sesion-block">
+          <input type="text" id="sesion7" placeholder="Sesión 7">
+          <select id="asistencia7" required>
+            <option value="">Asistencia</option>
+            <option value="true">SI</option>
+            <option value="false">NO</option>
+          </select>
+        </div>
+        <div class="sesion-block">
+          <label for="asistenciaEncuentro">Asistencia Encuentro Anual:</label>
+          <select id="asistenciaEncuentro" required>
+            <option value="">Selecciona</option>
+            <option value="true">SI</option>
+            <option value="false">NO</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <div class="detail-actions">
+        <button type="submit" class="btn">Guardar Seguimiento Mensual</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL DATOS FINALES -->
+<div class="detail-panel" id="modalFinales">
+  <button class="detail-panel__close" id="closeModalFinales">&times;</button>
+  <div class="detail-panel__body">
+    <h2>Agregar Datos Finales</h2>
+    <form id="formFinales">
+      <label for="anio">Año:</label>
+      <input type="number" id="anio" required>
+
+      <label for="insumosRecibidos">Insumos Recibidos:</label>
+      <div id="insumosContainer">
+        <input type="text" id="insumoInput" placeholder="Ej. Útiles escolares" />
+        <button type="button" id="addInsumoBtn">Agregar</button>
+      </div>
+      <div id="insumosList"></div>
+
+      <label for="estadoCiclo">Estado Ciclo Académico:</label>
+      <select id="estadoCiclo" required>
+        <option value="Aprobada">Aprobada</option>
+        <option value="Reprobada">Reprobada</option>
+      </select>
+
+      <label>Papelería:</label>
+      <div id="papeleriaChecklist">
+        <div><input type="checkbox" value="nacimiento" />Fotocopia de Certificado de Nacimiento</div>
+        <div><input type="checkbox" value="ultimo_grado" />Certificado Último Grado Aprobado</div>
+        <div><input type="checkbox" value="carta_recomendacion" />Carta de Recomendación del Establecimiento</div>
+        <div><input type="checkbox" value="dpi_madre" />Fotocopia de DPI de la Madre</div>
+        <div><input type="checkbox" value="dpi_padre" />Fotocopia de DPI del Padre</div>
+        <div><input type="checkbox" value="convenio" />Convenio</div>
+        <div><input type="checkbox" value="perfil_ingreso" />Perfil de Ingreso</div>
+        <br>
+
+      <label>Anexo:</label>
+        <div><input type="checkbox" value="solicitud_beca" />Carta de Solicitud de Beca</div>
+        <div><input type="checkbox" value="ficha" />Ficha Socioeconómica</div>
+        <div><input type="checkbox" value="bim1" />Fotocopia de Calificaciones del Primer Bimestre</div>
+        <div><input type="checkbox" value="bim1" />Fotocopia de Calificaciones del Primer Bimestre</div>
+        <div><input type="checkbox" value="bim1" />Fotocopia de Calificaciones del Primer Bimestre</div>
+        <div><input type="checkbox" value="bim1" />Fotocopia de Calificaciones del Primer Bimestre</div>
+        <label>Otros:</label>
+        <div><input type="text"></div>
+      </div>
+
+      <label for="solicitudContinuidad">Solicitud de Continuidad:</label>
+      <select id="solicitudContinuidad" required>
+        <option value="true">Sí</option>
+        <option value="false">No</option>
+      </select>
+
+      <div class="detail-actions">
+        <button type="submit" class="btn">Guardar Datos Finales</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/seguimiento.js"></script>
+
+<!-- FOOTER -->
+  <footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <img src="../img/logo.png" alt="Logo FUNDENOR AQ'AB'AL" class="footer-logo">
+    </div>
+
+    <div class="footer-center">
+      <p>&copy; 2025 FUNDENOR AQ'AB'AL — Todos los derechos reservados</p>
+      <p class="footer-dev">
+        Universidad Mariano Gálvez de Guatemala, Sede Cobán A.V.<br>
+        Ingeniería en Sistemas de Información y Ciencias de la Computación — Décimo Ciclo
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <img src="../img/logo_umg.png" alt="Logo UMG" class="footer-logo">
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

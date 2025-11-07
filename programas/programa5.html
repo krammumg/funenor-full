@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ayuda Humanitaria — FUNDENOR AQ'AB'AL</title>
+  <link rel="stylesheet" href="../css/programas.css">
+</head>
+
+<body class="preload">
+  <div class="app">
+    <aside class="sidebar"></aside>
+  <!-- NAVBAR -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="../img/logo.png" alt="Logo FUNDENOR AQAB'AL'">
+        <span>FUNDENOR AQAB'AL'</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Inicio</a></li>
+        <li class="dropdown">
+          <a href="#programas">Programas ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="programa1.html">Alimentación y Nutrición</a></li>
+            <li><a href="programa2.html">Salud</a></li>
+            <li><a href="programa3.html">Higiene y Hogar</a></li>
+            <li><a href="programa4.html">Educación</a></li>
+            <li><a href="programa5.html">Ayuda Humanitaria</a></li>
+          </ul>
+        </li>
+        <li><a href="../donaciones/donaciones.html" class="btn-donar">Donar</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="main-content">
+
+    <!-- HERO -->
+    <section class="hero" style="background-image: url('../img/prog5.png');">
+      <div class="hero-content">
+        <h1>Ayuda Humanitaria</h1>
+        <p>Brindando ayuda humanitaria durante emergencias y catástrofes naturales.</p>
+        <a class="btn" href="#areas">Ver áreas</a>
+      </div>
+    </section>
+
+    <!-- DESCRIPCIÓN GENERAL -->
+    <section class="program-section">
+      <div class="program-content">
+        <h2>Descripción General</h2>
+        <p>
+          Nuestro programa de ayuda humanitaria está diseñado para brindar apoyo específicamente durante catástrofes naturales y situaciones de emergencia. Hemos asistido a familias afectadas por inundaciones y deslizamientos, así como a aquellas que han sido evacuadas de sus viviendas. Proveemos alimentos a albergues y actuamos como puente para canalizar donaciones hacia donde más se necesitan. Garantizamos que los insumos y donaciones se aprovechen de la mejor manera para beneficiar a quienes más lo necesitan.
+        </p>
+      </div>
+    </section>
+
+    <!-- ÁREAS DE TRABAJO / GALERÍA -->
+    <section id="areas" class="areas-section">
+      <h2>Galería de Entregas</h2>
+      <div class="gallery-preview">
+        <img src="../img/programa5/entrega1.png" alt="">
+        <img src="../img/programa5/entrega2.png" alt="">
+        <img src="../img/programa5/entrega3.png" alt="">
+        <img src="../img/programa5/entrega4.png" alt="">
+      </div>
+      <div class="gallery-btn-container">
+        <button class="btn-gallery" data-gallery="entregas">Ver galería</button>
+      </div>
+    </section>
+
+    <!-- RESULTADOS -->
+    <section class="resultados">
+      <h2>Resultados al 2024</h2>
+      <div class="resultados-grid">
+        <div class="resultado-card">
+          <img src="../img/icons/nutricion.png" alt="">
+          <h3>1000</h3>
+          <p>Familias reciben apoyo por catástrofes</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN DONACIONES -->
+<section id="donaciones" class="section section-light">
+  <div class="section-content cta-donacion">
+    <div class="section-text">
+      <h2>¡Únete y Apoya con tu Donación!</h2>
+      <p>
+        Tu apoyo transforma vidas. Con tu contribución, podemos seguir llevando desarrollo, educación y bienestar
+        a las comunidades que más lo necesitan.
+      </p>
+      <div class="formas-donacion">
+        <div class="donacion-card">
+          <img src="../img/icons/individual.webp" alt="Donación Individual">
+          <h3>Donación Individual</h3>
+        </div>
+        <div class="donacion-card">
+          <img src="../img/icons/empresarial.png" alt="Donación Empresarial">
+          <h3>Donación Empresarial</h3>
+        </div>
+        <div class="donacion-card">
+          <img src="../img/icons/causa.png" alt="Donación por Causa">
+          <h3>Donación por Causa</h3>
+        </div>
+      </div>
+      <a href="../donaciones/donaciones.html" class="btn btn-donar">¡Dona Ahora!</a>
+    </div>
+    <div class="section-image">
+      <img src="../img/prog5.png" alt="Personas beneficiadas">
+    </div>
+  </div>
+</section>
+
+    <!-- FOOTER -->
+  <footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <img src="../img/logo.png" alt="Logo FUNDENOR AQ'AB'AL" class="footer-logo">
+    </div>
+
+    <div class="footer-center">
+      <p>&copy; 2025 FUNDENOR AQ'AB'AL — Todos los derechos reservados</p>
+      <p class="footer-dev">
+        Universidad Mariano Gálvez de Guatemala, Sede Cobán A.V.<br>
+        Ingeniería en Sistemas de Información y Ciencias de la Computación — Décimo Ciclo
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <img src="../img/logo_umg.png" alt="Logo UMG" class="footer-logo">
+    </div>
+  </div>
+</footer>
+  </main>
+
+  <!-- MODAL PARA GALERÍA -->
+  <div id="galleryModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+  </div>
+
+  <!-- JS -->
+  <script src="../js/sidebar.js"></script>
+  <script src="../js/programas.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+/* ---------- GALERÍA UNIVERSAL (thumbnails + galerías extra) ---------- */
+  (function(){
+  // Referencias DOM
+  const modal = document.getElementById("galleryModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeBtn = modal.querySelector(".close");
+
+  // Botones de navegación (se crean una vez)
+  const btnPrev = document.createElement("button");
+  const btnNext = document.createElement("button");
+  btnPrev.className = "modal-nav modal-prev";
+  btnNext.className = "modal-nav modal-next";
+  btnPrev.setAttribute("aria-label", "Anterior");
+  btnNext.setAttribute("aria-label", "Siguiente");
+  btnPrev.innerHTML = "◀";
+  btnNext.innerHTML = "▶";
+
+  // Estilos mínimos para los botones (se pueden mover a CSS)
+  const navStyle = `
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    border: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 1100;
+  `;
+  btnPrev.style.cssText = navStyle + "left: 32px;";
+  btnNext.style.cssText = navStyle + "right: 32px;";
+
+  // Añadir botones al modal
+  modal.appendChild(btnPrev);
+  modal.appendChild(btnNext);
+
+  // Objeto con colecciones "extra" que se cargan cuando se pulsa el botón "Ver galería"
+  const galeriasExtra = {
+  entregas: [
+    "../img/programa5/galeria/20200601_164444.jpg",
+    "../img/programa5/galeria/20201120_135531.jpg",
+    "../img/programa5/galeria/20201120_142154.jpg",
+    "../img/programa5/galeria/20201120_150019.jpg",
+    "../img/programa5/galeria/20201123_130911.jpg",
+    "../img/programa5/galeria/20201124_102917.jpg",
+    "../img/programa5/galeria/20201218_111400.jpg",
+    "../img/programa5/galeria/20201218_112011.jpg",
+    "../img/programa5/galeria/20201218_163835.jpg",
+    "../img/programa5/galeria/20210205_095754.jpg",
+    "../img/programa5/galeria/20210205_101122.jpg",
+    "../img/programa5/galeria/20210317_114429.jpg",
+    "../img/programa5/galeria/20210317_114644.jpg",
+    "../img/programa5/galeria/20210317_114857.jpg",
+    "../img/programa5/galeria/IMG_20210625_102837.jpg",
+    "../img/programa5/galeria/IMG_20211206_145751.jpg",
+    "../img/programa5/galeria/IMG_20211207_113859.jpg",
+    "../img/programa5/galeria/IMG_20220222_100401.jpg"
+  ]
+};
+
+  // Estado de la galería actual
+  let currentGallery = []; // array de src
+  let currentIndex = 0;
+
+  // Mostrar imagen por índice
+  function showImage(index) {
+    if (!currentGallery || currentGallery.length === 0) return;
+    currentIndex = ((index % currentGallery.length) + currentGallery.length) % currentGallery.length;
+    modalImg.src = currentGallery[currentIndex];
+
+    // accesibilidad / atributos
+    modalImg.alt = `Imagen ${currentIndex + 1} de ${currentGallery.length}`;
+
+    // ocultar botones si solo hay 1 imagen
+    if (currentGallery.length <= 1) {
+      btnPrev.style.display = "none";
+      btnNext.style.display = "none";
+    } else {
+      btnPrev.style.display = "";
+      btnNext.style.display = "";
+    }
+  }
+
+  // Abrir modal
+  function openModal() {
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden"; // evita scroll en background
+  }
+
+  // Cerrar modal
+  function closeModal() {
+    modal.style.display = "none";
+    document.body.style.overflow = ""; // restaura scroll
+  }
+
+  // Handlers prev/next
+  btnPrev.addEventListener("click", (e) => {
+    e.stopPropagation();
+    showImage(currentIndex - 1);
+  });
+  btnNext.addEventListener("click", (e) => {
+    e.stopPropagation();
+    showImage(currentIndex + 1);
+  });
+
+  // Cerrar con X
+  closeBtn.addEventListener("click", () => closeModal());
+
+  // Cerrar al hacer clic fuera de la imagen (en el overlay)
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Navegación con teclado: ← → y ESC
+  window.addEventListener("keydown", (e) => {
+    if (modal.style.display === "block") {
+      if (e.key === "ArrowRight") {
+        showImage(currentIndex + 1);
+      } else if (e.key === "ArrowLeft") {
+        showImage(currentIndex - 1);
+      } else if (e.key === "Escape") {
+        closeModal();
+      }
+    }
+  });
+
+  /* ---------- 1) Comportamiento original: cuando se hace clic en las miniaturas
+       se usan las imágenes que ya están en la página (navegación entre ellas). -----*/
+  document.querySelectorAll(".gallery-preview img").forEach(img => {
+    img.addEventListener("click", (ev) => {
+      // Construimos galería a partir de las imágenes existentes en la misma .gallery-preview
+      const container = img.closest(".gallery-preview");
+      const imgs = Array.from(container.querySelectorAll("img"));
+      currentGallery = imgs.map(i => i.src);
+      currentIndex = imgs.indexOf(img);
+      showImage(currentIndex);
+      openModal();
+    });
+  });
+
+  /* ---------- 2) Comportamiento del botón "Ver galería": carga galeriasExtra ---------- */
+  document.querySelectorAll(".btn-gallery").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const galleryName = btn.dataset.gallery;
+      const extra = galeriasExtra[galleryName];
+      if (!extra || !extra.length) {
+        // Si no hay imágenes extra definidas, caemos en usar las miniaturas de la sección (fallback)
+        const section = btn.closest(".program-section") || btn.closest("section");
+        const preview = section ? section.querySelector(".gallery-preview") : null;
+        if (preview) {
+          const imgs = Array.from(preview.querySelectorAll("img"));
+          currentGallery = imgs.map(i => i.src);
+        } else {
+          currentGallery = [];
+        }
+      } else {
+        currentGallery = extra.slice(); // copia array
+      }
+      currentIndex = 0;
+      showImage(currentIndex);
+      openModal();
+    });
+  });
+
+  // Inicial: ocultar botones si modal comienza con display none (ya ocultos por CSS)
+  btnPrev.style.display = "none";
+  btnNext.style.display = "none";
+
+})(); 
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const role = localStorage.getItem("role");
+  const body = document.body;
+  const sidebar = document.querySelector(".sidebar");
+
+  // Mostrar sidebar sólo a admin o becasManager
+  if (role === "admin" || role === "becasManager") {
+    body.classList.add("with-sidebar");
+
+    try {
+      // Si tienes un archivo HTML del sidebar, se puede cargar aquí
+      // const res = await fetch("/components/sidebar.html");
+      // sidebar.innerHTML = await res.text();
+
+      // O si se genera con JS dinámico, puedes dejarlo vacío y dejar que sidebar.js lo renderice
+    } catch (err) {
+      console.error("Error cargando sidebar:", err);
+    }
+  } else {
+    if (sidebar) sidebar.remove();
+  }
+
+  // ✅ Finalmente, mostramos el contenido ya sin parpadeo
+  body.classList.remove("preload");
+});
+</script>
+
+</body>
+</html>

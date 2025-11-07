@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin · FUNDENOR AQ'AB'AL — Panel de Control</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const role = localStorage.getItem("role");
+    
+    if (role !== "admin") {
+      alert("No tienes permiso para acceder a esta página");
+      window.location.href = "index.html";
+    }
+  });
+</script>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="img/logo.png" alt="Logo FUNDENOR AQAB'AL'">
+        <span>FUNDENOR AQ'AB'AL</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li class="dropdown">
+          <a href="#programas">Programas ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="programas/programa1.html">Alimentación y Nutrición</a></li>
+            <li><a href="programas/programa2.html">Salud</a></li>
+            <li><a href="programas/programa3.html">Higiene y Hogar</a></li>
+            <li><a href="programas/programa4.html">Educación</a></li>
+            <li><a href="programas/programa5.html">Ayuda Humanitaria</a></li>
+          </ul>
+        </li>
+        <li><a href="donaciones/donaciones.html" class="btn-donar">Donar</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      
+      <nav class="menu">
+        <a href="admin.html" class="menu__item active"><span class="ico">💰</span><span>Donaciones</span></a>
+        <a href="becas.html" class="menu__item"><span class="ico">🎓</span><span>Becas</span></a>
+        <a href="seguimiento.html" class="menu__item"><span class="ico">📊</span><span>Seguimiento</span></a>
+        <a href="usuarios.html" class="menu__item"><span class="ico">👥</span><span>Usuarios</span></a>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar__left">
+          <h1 class="page-title">Panel de Control</h1>
+        </div>
+        <div class="topbar__right">
+          <div class="search">
+            <input type="search" placeholder="Buscar donante, transacción, programa..." aria-label="buscar">
+            <button class="btn-ghost">🔎</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <div class="cards">
+          <article class="card card--accent">
+            <div class="card-head">
+              <h3>Total recaudado</h3>
+              <span class="muted">Últimos 30 días</span>
+            </div>
+            <div class="card-body">
+              <div class="big">Q.0</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Donantes</h3>
+            <div class="card-body">
+              <div class="big">0</div>
+              <div class="small">Donantes activos</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Donaciones pendientes</h3>
+            <div class="card-body">
+              <div class="big">0</div>
+              <div class="small">Requieren verificación</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Campañas activas</h3>
+            <div class="card-body">
+              <div class="big">0</div>
+              <div class="small">En curso</div>
+            </div>
+          </article>
+        </div>
+
+        <div class="layout">
+          <div class="panel panel--wide">
+            <div class="panel__head">
+              <h2>Donaciones recientes</h2>
+              <div class="controls">
+                <select aria-label="filtrar programa">
+                  <option value="">Todos los programas</option>
+                  <option>Alimentación</option>
+                  <option>Salud</option>
+                  <option>Higiene</option>
+                  <option>Educación</option>
+                  <option>Apoyo</option>
+                </select>
+                <input type="date" aria-label="desde">
+                <input type="date" aria-label="hasta">
+                <button class="btn-ghost">Exportar CSV</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Donante</th>
+                    <th>Monto</th>
+                    <th>Programa</th>
+                    <th>Metodo</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <aside class="panel panel--narrow">
+            <div class="panel__section">
+              <h3>Resumen por programa</h3>
+              <ul class="prog-list">
+                <li><strong>Alimentación</strong> <span class="muted">Q 0</span></li>
+                <li><strong>Salud</strong> <span class="muted">Q 0</span></li>
+                <li><strong>Higiene</strong> <span class="muted">Q 0</span></li>
+                <li><strong>Educación</strong> <span class="muted">Q 0</span></li>
+                <li><strong>Apoyo</strong> <span class="muted">Q 0</span></li>
+              </ul>
+            </div>
+
+            <div class="panel__section">
+              <h3>Actividad reciente</h3>
+              <ul class="activity"></ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- off-canvas detail -->
+      <div id="detailPanel" class="detail-panel" aria-hidden="true">
+        <button id="closeDetail" class="detail-panel__close">✕</button>
+        <div class="detail-panel__body">
+          <h3 id="detailName">Detalle del donante</h3>
+          <dl>
+            <dt>Nombre</dt><dd id="detailNameVal">María López</dd>
+            <dt>Correo</dt><dd id="detailEmailVal">maria@example.com</dd>
+            <dt>Monto</dt><dd id="detailAmountVal">Q 250.00</dd>
+            <dt>Programa</dt><dd id="detailProgramVal">Alimentación</dd>
+            <dt>Estado</dt><dd id="detailStatusVal">Aprobado</dd>
+            <dt>Fecha</dt><dd id="detailDateVal">2025-09-20</dd>
+          </dl>
+          <div class="detail-actions">
+            <button class="btn">Marcar como verificado</button>
+            <button class="btn-ghost">Generar recibo PDF</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/auth.js"></script>
+  <script src="js/admin-dashboard.js"></script>
+
+<!-- FOOTER -->
+  <footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <img src="../img/logo.png" alt="Logo FUNDENOR AQ'AB'AL" class="footer-logo">
+    </div>
+
+    <div class="footer-center">
+      <p>&copy; 2025 FUNDENOR AQ'AB'AL — Todos los derechos reservados</p>
+      <p class="footer-dev">
+        Universidad Mariano Gálvez de Guatemala, Sede Cobán A.V.<br>
+        Ingeniería en Sistemas de Información y Ciencias de la Computación — Décimo Ciclo
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <img src="../img/logo_umg.png" alt="Logo UMG" class="footer-logo">
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

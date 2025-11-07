@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  role      String     @default("user")
+  donations Donation[]
+}
+
+model Donation {
+  id            Int      @id @default(autoincrement())
+  orderId       String   @unique
+  amount        Float
+  donorEmail    String
+  createdAt     DateTime @default(now())
+  userId        Int?
+  paymentMethod String   @default("Paggo")
+  status        String   @default("pending")
+  user          User?    @relation(fields: [userId], references: [id])
+}
+
+model becadas {
+  id                    Int                  @id @default(autoincrement())
+  nombres               String
+  fecha_nacimiento      DateTime
+  grado                 String
+  tipo_beca             String
+  departamento          String
+  municipio             String
+  comunidad             String
+  talla_playera         String
+  talla_zapatos         String
+  necesidades           String?
+  fecha_registro        DateTime             @default(now())
+  apellidos             String?
+  datosFinales          DatosFinales[]
+  seguimientosMensuales SeguimientoMensual[]
+
+  @@map("becadas")
+}
+
+model SeguimientoMensual {
+  id                   Int      @id @default(autoincrement())
+  becadaId             Int
+  mes                  String
+  sesion1_tema         String?
+  sesion1_asistencia   Boolean?
+  sesion2_tema         String?
+  sesion2_asistencia   Boolean?
+  sesion3_tema         String?
+  sesion3_asistencia   Boolean?
+  sesion4_tema         String?
+  sesion4_asistencia   Boolean?
+  sesion5_tema         String?
+  sesion5_asistencia   Boolean?
+  sesion6_tema         String?
+  sesion6_asistencia   Boolean?
+  sesion7_tema         String?
+  sesion7_asistencia   Boolean?
+  asistenciaEncuentroAnual Boolean?
+  createdAt            DateTime @default(now())
+  becada               becadas  @relation(fields: [becadaId], references: [id])
+}
+
+
+model DatosFinales {
+  id                   Int      @id @default(autoincrement())
+  becadaId             Int
+  anio                 Int
+  insumosRecibidos     String?
+  estadoCiclo          String
+  papeleriaCompleta    Boolean
+  solicitudContinuidad Boolean
+  createdAt            DateTime @default(now())
+  becada               becadas  @relation(fields: [becadaId], references: [id])
+}
