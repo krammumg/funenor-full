@@ -1,8 +1,6 @@
-# Ignorar imágenes, videos y assets pesados dentro de backend/public
-backend/public/img/**
-backend/public/videos/**
-backend/public/assets/**
-
-# Ignorar node_modules y logs
+# Ignorar node_modules y archivos pesados
 backend/node_modules/**
+backend/generated/**
+backend/prisma/migrations/**
+img/**
 *.log
