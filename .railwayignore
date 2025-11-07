@@ -1,0 +1,8 @@
+# Ignorar imágenes y assets pesados
+backend/public/img/**
+backend/public/videos/**
+backend/public/assets/**
+
+# Ignorar carpetas de node_modules y logs
+node_modules/**
+*.log
